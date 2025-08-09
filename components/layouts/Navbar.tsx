@@ -3,13 +3,17 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const isActive = (href: string) => pathname === href;
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -34,7 +38,9 @@ function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                  className={`text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                    isActive(link.href) ? "text-primary" : ""
+                  }`}
                 >
                   {link.name}
                 </Link>
@@ -47,13 +53,13 @@ function Navbar() {
             <div className="flex items-center space-x-4">
               <Link
                 href="/login"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
               >
                 Login
               </Link>
               <Link
                 href="/signup"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
               >
                 Sign In
               </Link>
@@ -64,7 +70,7 @@ function Navbar() {
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+              className="text-gray-700 hover:text-primary focus:outline-none focus:text-primary"
             >
               {isMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -83,7 +89,7 @@ function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+              className="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
               onClick={() => setIsMenuOpen(false)}
             >
               {link.name}
@@ -93,14 +99,14 @@ function Navbar() {
             <div className="flex flex-col space-y-2">
               <Link
                 href="/login"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 text-left"
+                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 text-left"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Login
               </Link>
               <Link
                 href="/signup"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-base font-medium transition-colors duration-200 text-left"
+                className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-md text-base font-medium transition-colors duration-200 text-left"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Sign In

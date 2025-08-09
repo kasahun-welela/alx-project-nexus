@@ -45,12 +45,18 @@ function Navbar() {
           {/* Desktop Auth Buttons */}
           <div className="hidden md:block">
             <div className="flex items-center space-x-4">
-              <button className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+              <Link
+                href="/login"
+                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+              >
                 Login
-              </button>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+              </Link>
+              <Link
+                href="/login"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+              >
                 Sign In
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -85,12 +91,20 @@ function Navbar() {
           ))}
           <div className="pt-4 pb-3 border-t border-gray-200">
             <div className="flex flex-col space-y-2">
-              <button className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 text-left">
+              <Link
+                href="/login"
+                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 text-left"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Login
-              </button>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-base font-medium transition-colors duration-200 text-left">
+              </Link>
+              <Link
+                href="/login"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-base font-medium transition-colors duration-200 text-left"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Sign In
-              </button>
+              </Link>
             </div>
           </div>
         </div>

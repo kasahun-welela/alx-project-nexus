@@ -4,9 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Building, DollarSign, Clock } from "lucide-react";
 import Link from "next/link";
+import { Job } from "@/interfaces";
 
-export default function JobCard({ job }: any) {
-  console.log(job);
+export default function JobCard({ job }: { job: Job }) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {

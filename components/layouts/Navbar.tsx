@@ -23,12 +23,12 @@ function Navbar() {
   ];
 
   return (
-    <nav className="bg-white shadow-lg border-b border-gray-200">
+    <nav className="bg-white  ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-blue-600">Nexus Jobs</h1>
+            <h1 className="text-2xl font-bold text-primary">Nexus Jobs</h1>
           </div>
 
           {/* Desktop Navigation */}

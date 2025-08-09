@@ -9,7 +9,6 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Form,
   FormControl,
@@ -37,7 +36,9 @@ export default function LoginPage() {
     },
   });
 
-  const onSubmit = async (data: LoginForm) => {};
+  const onSubmit = async (data: LoginForm) => {
+    console.log(data);
+  };
 
   return (
     <div className="md:min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -133,7 +134,7 @@ export default function LoginPage() {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link
                 href="/signup"
                 className="font-medium text-primary hover:text-primary/80"

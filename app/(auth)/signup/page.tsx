@@ -9,7 +9,6 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Form,
   FormControl,
@@ -76,7 +75,7 @@ export default function SignupPage() {
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary h-4 w-4" />
                         <Input
                           {...field}
                           type="text"
@@ -100,7 +99,7 @@ export default function SignupPage() {
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary h-4 w-4" />
                         <Input
                           {...field}
                           type="email"
@@ -124,7 +123,7 @@ export default function SignupPage() {
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary h-4 w-4" />
                         <Input
                           {...field}
                           type={showPassword ? "text" : "password"}
@@ -134,7 +133,7 @@ export default function SignupPage() {
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80"
                         >
                           {showPassword ? (
                             <EyeOff className="h-4 w-4" />
@@ -159,7 +158,7 @@ export default function SignupPage() {
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary h-4 w-4" />
                         <Input
                           {...field}
                           type={showConfirmPassword ? "text" : "password"}
@@ -171,7 +170,7 @@ export default function SignupPage() {
                           onClick={() =>
                             setShowConfirmPassword(!showConfirmPassword)
                           }
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80"
                         >
                           {showConfirmPassword ? (
                             <EyeOff className="h-4 w-4" />
@@ -197,7 +196,7 @@ export default function SignupPage() {
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="font-medium text-text-primary hover:text-primary/80"
+                className="font-medium text-primary hover:text-primary/80"
               >
                 Sign in
               </Link>

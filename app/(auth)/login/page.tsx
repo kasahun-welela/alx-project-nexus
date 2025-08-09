@@ -65,7 +65,7 @@ export default function LoginPage() {
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary h-4 w-4" />
                         <Input
                           {...field}
                           type="email"
@@ -89,7 +89,7 @@ export default function LoginPage() {
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary h-4 w-4" />
                         <Input
                           {...field}
                           type={showPassword ? "text" : "password"}
@@ -99,7 +99,7 @@ export default function LoginPage() {
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary/80"
                         >
                           {showPassword ? (
                             <EyeOff className="h-4 w-4" />
@@ -118,7 +118,7 @@ export default function LoginPage() {
                 <div className="text-sm">
                   <Link
                     href="/forgot-password"
-                    className="font-medium text-text-primary hover:text-primary/80"
+                    className="font-medium text-primary hover:text-primary/80"
                   >
                     Forgot your password?
                   </Link>
@@ -136,7 +136,7 @@ export default function LoginPage() {
               Don't have an account?{" "}
               <Link
                 href="/signup"
-                className="font-medium text-text-primary hover:text-primary/80"
+                className="font-medium text-primary hover:text-primary/80"
               >
                 Sign up
               </Link>

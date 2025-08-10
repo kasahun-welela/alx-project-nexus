@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +18,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { login } from "@/action"; // adjust path to your server action
+import { toast } from "sonner";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -27,6 +30,8 @@ type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -37,7 +42,16 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: LoginForm) => {
-    console.log(data);
+    setServerError(null); // Clear previous errors
+
+    const result = await login(data);
+
+    if (result.success) {
+      toast.success("logged in successfully");
+    } else {
+      // Show server-side error message
+      setServerError(result.message);
+    }
   };
 
   return (
@@ -52,8 +66,14 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Login Form */}
         <div className="bg-white py-8 px-6 shadow-lg rounded-lg border border-gray-200">
+          {/* Show top error if present */}
+          {serverError && (
+            <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-700">
+              {serverError}
+            </div>
+          )}
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField

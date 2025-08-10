@@ -75,7 +75,7 @@ export default function JobCard({ job }: { job: Job }) {
         </p>
 
         <div className="pt-2">
-          <Link href={`/job/${job._id}`} className="w-full">
+          <Link href={`/jobs/${job._id}`} className="w-full">
             <Button className="w-full">View Details</Button>
           </Link>
         </div>

@@ -1,15 +1,12 @@
 export interface Job {
-  id: string;
+  _id: string;
   title: string;
-  company: string;
-  location: string;
-  category: string;
-  experienceLevel: string;
-  type: string;
-  salary: string;
   description: string;
-  requirements: string[];
-  benefits: string[];
-  postedDate: string;
-  applicationDeadline: string;
+  company: string;
+  country: string;
+  region: string;
+  jobType: string;
+  salary: number;
+  category: string;
+  createdAt: string;
 }

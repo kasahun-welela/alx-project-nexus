@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,6 +32,8 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -42,15 +44,30 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (data: LoginForm) => {
-    setServerError(null); // Clear previous errors
+    setServerError(null);
+    setIsLoading(true);
 
-    const result = await login(data);
+    try {
+      const result = await login(data);
 
-    if (result.success) {
-      toast.success("logged in successfully");
-    } else {
-      // Show server-side error message
-      setServerError(result.message);
+      if (result.success) {
+        toast.success("Logged in successfully");
+
+        // Get redirect URL from query params (e.g. ?redirect=/jobs/123/apply)
+        const redirectUrl = searchParams.get("redirect");
+
+        if (redirectUrl) {
+          router.push(redirectUrl);
+        } else {
+          router.push("/jobs");
+        }
+      } else {
+        setServerError(result.message);
+      }
+    } catch (error) {
+      setServerError("An unexpected error occurred.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -146,8 +163,9 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full">
-                Sign in
+              <Button type="submit" disabled={isLoading} className="w-full">
+                {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                Submit Application
               </Button>
             </form>
           </Form>

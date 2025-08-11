@@ -1,13 +1,35 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { isUserLoggedIn } from "@/action";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const ok = await isUserLoggedIn();
+        setLoggedIn(ok);
+      } catch {
+        setLoggedIn(false);
+      }
+    })();
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -49,22 +71,41 @@ function Navbar() {
           </div>
 
           {/* Desktop Auth Buttons */}
-          <div className="hidden md:block">
-            <div className="flex items-center space-x-4">
-              <Link
-                href="/login"
-                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
-              >
-                Login
-              </Link>
-              <Link
-                href="/signup"
-                className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
-              >
-                Sign In
-              </Link>
+          {loggedIn ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Saved Jobs</DropdownMenuItem>
+                <DropdownMenuItem>My applications</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Log out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <div className="hidden md:block">
+              <div className="flex items-center space-x-4">
+                <Link
+                  href="/login"
+                  className="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                >
+                  Sign In
+                </Link>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Mobile menu button */}
           <div className="md:hidden">

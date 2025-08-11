@@ -119,3 +119,11 @@ export async function apply(formData: Applications) {
     };
   }
 }
+
+
+export async function isUserLoggedIn() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value; 
+
+  return Boolean(token);
+}

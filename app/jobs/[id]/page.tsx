@@ -18,6 +18,7 @@ import {
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Job } from "@/interfaces";
+import LinkAsButton from "@/components/common/LinkAsButton";
 
 // Dummy data for testing when API is not responding
 const dummyJobData: { [key: string]: Job } = {
@@ -304,9 +305,10 @@ export default function JobDetailPage() {
                 </div>
               </div>
               <div className="lg:text-right">
-                <Button size="lg" className="w-full lg:w-auto">
-                  Apply Now
-                </Button>
+                <LinkAsButton
+                  href={`/jobs/${job._id}/apply`}
+                  children=" Apply Now"
+                />
               </div>
             </div>
           </CardHeader>

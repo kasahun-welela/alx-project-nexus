@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import Link from "next/link";
-
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -17,6 +17,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const signupSchema = z
   .object({
@@ -35,6 +37,9 @@ type SignupForm = z.infer<typeof signupSchema>;
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm<SignupForm>({
     resolver: zodResolver(signupSchema),
@@ -47,7 +52,33 @@ export default function SignupPage() {
   });
 
   const onSubmit = async (data: SignupForm) => {
-    console.log(data);
+    setLoading(true);
+    setApiError(null);
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/register`,
+        {
+          name: data.fullName,
+          email: data.email,
+          password: data.password,
+        }
+      );
+
+      if (res.status === 201 || res.status === 200) {
+        toast.success("Account created successfully! You can now log in.");
+        form.reset();
+        router.push("/login");
+      }
+    } catch (error: any) {
+      if (axios.isAxiosError(error) && error.response) {
+        setApiError(error.response.data?.message || "Registration failed");
+      } else {
+        setApiError("Something went wrong. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -63,8 +94,13 @@ export default function SignupPage() {
         </div>
 
         <div className="bg-white py-8 px-6 shadow-lg rounded-lg border border-gray-200">
+          {apiError && (
+            <p className="mb-4 text-sm text-red-600 font-medium">{apiError}</p>
+          )}
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* Full Name */}
               <FormField
                 control={form.control}
                 name="fullName"
@@ -89,6 +125,7 @@ export default function SignupPage() {
                 )}
               />
 
+              {/* Email */}
               <FormField
                 control={form.control}
                 name="email"
@@ -113,6 +150,7 @@ export default function SignupPage() {
                 )}
               />
 
+              {/* Password */}
               <FormField
                 control={form.control}
                 name="password"
@@ -148,6 +186,7 @@ export default function SignupPage() {
                 )}
               />
 
+              {/* Confirm Password */}
               <FormField
                 control={form.control}
                 name="confirmPassword"
@@ -185,8 +224,9 @@ export default function SignupPage() {
                 )}
               />
 
-              <Button type="submit" className="w-full">
-                Create Account
+              {/* Submit */}
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Creating account..." : "Create Account"}
               </Button>
             </form>
           </Form>

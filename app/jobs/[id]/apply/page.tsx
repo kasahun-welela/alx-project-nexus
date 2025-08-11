@@ -43,8 +43,6 @@ export default function JobDetailPage() {
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const jobId = Array.isArray(params.id) ? params.id[0] : params.id || "";
 
@@ -61,7 +59,7 @@ export default function JobDetailPage() {
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/jobs/${jobId}`
         );
         setJob(response.data);
-      } catch (err: any) {
+      } catch (err) {
         console.error("Error fetching job from API:", err);
         setError("Failed to load job details");
       } finally {
@@ -87,7 +85,7 @@ export default function JobDetailPage() {
       } else {
         toast.error(result.message || "Failed to submit application");
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Application submission failed:", error);
       toast.error("An unexpected error occurred. Please try again.");
     }
@@ -227,13 +225,6 @@ export default function JobDetailPage() {
                     </FormItem>
                   )}
                 />
-
-                {successMessage && (
-                  <p className="text-green-600 text-sm">{successMessage}</p>
-                )}
-                {errorMessage && (
-                  <p className="text-red-600 text-sm">{errorMessage}</p>
-                )}
 
                 <Button
                   type="submit"

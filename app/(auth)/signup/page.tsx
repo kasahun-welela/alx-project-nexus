@@ -70,7 +70,7 @@ export default function SignupPage() {
         form.reset();
         router.push("/login");
       }
-    } catch (error: any) {
+    } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         setApiError(error.response.data?.message || "Registration failed");
       } else {

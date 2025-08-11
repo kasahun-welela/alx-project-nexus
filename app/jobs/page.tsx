@@ -20,9 +20,14 @@ export default function JobsPage() {
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/jobs`
         );
         setJobs(response.data);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Error fetching jobs:", err);
-        setError(err.response?.data?.message || "Failed to fetch jobs");
+
+        if (axios.isAxiosError(err)) {
+          setError(err.response?.data?.message || "Failed to fetch jobs");
+        } else {
+          setError("Failed to fetch jobs");
+        }
       } finally {
         setLoading(false);
       }

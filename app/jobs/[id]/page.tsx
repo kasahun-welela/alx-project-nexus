@@ -181,7 +181,7 @@ export default function JobDetailPage() {
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/jobs/${params.id}`
         );
         setJob(response.data);
-      } catch (err: any) {
+      } catch (err) {
         console.error("Error fetching job from API:", err);
 
         // Fallback to dummy data if API fails
@@ -307,7 +307,7 @@ export default function JobDetailPage() {
               <div className="lg:text-right">
                 <LinkAsButton
                   href={`/jobs/${job._id}/apply`}
-                  children=" Apply Now"
+                  text=" Apply Now"
                 />
               </div>
             </div>

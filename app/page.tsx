@@ -52,7 +52,7 @@ export default function Home() {
         )}
 
         <div className="flex justify-center py-4">
-          <LinkAsButton href="/jobs">View All Jobs</LinkAsButton>
+          <LinkAsButton href="/jobs" text="View All Jobs" />
         </div>
       </section>
     </>

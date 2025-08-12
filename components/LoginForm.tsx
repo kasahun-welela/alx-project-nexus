@@ -166,7 +166,7 @@ export default function Login() {
 
               <Button type="submit" disabled={isLoading} className="w-full">
                 {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                Submit Application
+                Login
               </Button>
             </form>
           </Form>

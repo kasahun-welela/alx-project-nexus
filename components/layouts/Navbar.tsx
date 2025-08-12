@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Briefcase, Heart, LogOut, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { isUserLoggedIn } from "@/action";
+import { isUserLoggedIn, logout } from "@/action";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,10 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    const res = logout();
+    console.log(res);
+  };
 
   useEffect(() => {
     (async () => {

@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import axios from "axios";
 import axiosInstance from "@/lib/axiosConfig";
 
+
 export interface LoginFormData {
   email: string;
   password: string;
@@ -291,3 +292,10 @@ export async function getAppliedJob() {
   }
 }
 
+export async function logout() {
+ 
+    const cookieStore = await cookies();
+    cookieStore.delete("token");
+    
+ 
+}

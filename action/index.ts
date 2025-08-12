@@ -174,4 +174,60 @@ export async function saveJob(formData :{jobId: string}) {
   }
 }
 
+export async function getSavedJob() {
+  try {
+    const response = await axiosInstance.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me/saved`
+    );
+
+    const result = response.data;
+
+    if (Array.isArray(result)) {
+      if (result.length === 0) {
+        return {
+          success: true,
+          message: "No saved jobs found",
+          jobs: [],
+        };
+      }
+
+      return {
+        success: true,
+        message: "Data fetched successfully",
+        jobs: result.map((job) => ({
+          _id: job._id,
+          title: job.title,
+          description: job.description,
+          company: job.company,
+          country: job.country,
+          region: job.region,
+          jobType: job.jobType,
+          salary: job.salary,
+          category: job.category,
+          createdAt: job.createdAt,
+          updatedAt: job.updatedAt,
+        })),
+      };
+    }
+
+    return {
+      success: false,
+      message: "Invalid response from server",
+    };
+  } catch (error: any) {
+    console.error("Fetching error:", error);
+
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: false,
+        message: error.response.data?.msg || "Failed to fetch saved jobs",
+      };
+    }
+
+    return {
+      success: false,
+      message: "An error occurred while fetching saved jobs. Please try again.",
+    };
+  }
+}
 

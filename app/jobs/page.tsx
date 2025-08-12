@@ -15,13 +15,14 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Filter state
+  // Filters
   const [country, setCountry] = useState<string>("");
   const [jobType, setJobType] = useState<string>("");
   const [category, setCategory] = useState<string>("");
@@ -37,8 +38,7 @@ export default function JobsPage() {
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/jobs`
         );
         setJobs(response.data);
-      } catch (err: unknown) {
-        console.error("Error fetching jobs:", err);
+      } catch {
         setError("Failed to fetch jobs");
       } finally {
         setLoading(false);
@@ -47,7 +47,6 @@ export default function JobsPage() {
     fetchJobs();
   }, []);
 
-  // Extract unique filter options
   const countries = useMemo(
     () => Array.from(new Set(jobs.map((j) => j.country))),
     [jobs]
@@ -61,7 +60,6 @@ export default function JobsPage() {
     [jobs]
   );
 
-  // Filtered jobs
   const filteredJobs = useMemo(() => {
     return jobs.filter((job) => {
       const matchesCountry = country ? job.country === country : true;
@@ -73,20 +71,12 @@ export default function JobsPage() {
     });
   }, [jobs, country, jobType, category, salaryRange]);
 
-  // Reset filters
   const clearFilters = () => {
     setCountry("");
     setJobType("");
     setCategory("");
     setSalaryRange([12000, 50000]);
   };
-
-  if (loading) {
-    return <p className="text-center py-20">Loading jobs...</p>;
-  }
-  if (error) {
-    return <p className="text-center py-20 text-red-500">{error}</p>;
-  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -109,7 +99,7 @@ export default function JobsPage() {
 
         {/* Filters */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-6 p-4 bg-white rounded-lg shadow">
-          {/* Country Filter */}
+          {/* Country */}
           <Select
             onValueChange={(val) => setCountry(val === "all" ? "" : val)}
             value={country || "all"}
@@ -127,7 +117,7 @@ export default function JobsPage() {
             </SelectContent>
           </Select>
 
-          {/* Job Type Filter */}
+          {/* Job Type */}
           <Select
             onValueChange={(val) => setJobType(val === "all" ? "" : val)}
             value={jobType || "all"}
@@ -145,7 +135,7 @@ export default function JobsPage() {
             </SelectContent>
           </Select>
 
-          {/* Category Filter */}
+          {/* Category */}
           <Select
             onValueChange={(val) => setCategory(val === "all" ? "" : val)}
             value={category || "all"}
@@ -163,7 +153,7 @@ export default function JobsPage() {
             </SelectContent>
           </Select>
 
-          {/* Salary Filter */}
+          {/* Salary */}
           <div className="flex flex-col justify-center">
             <span className="text-sm font-medium mb-2">Salary Range</span>
             <Slider
@@ -180,7 +170,7 @@ export default function JobsPage() {
             </span>
           </div>
 
-          {/* Clear Filters Button */}
+          {/* Clear Filters */}
           <div className="flex items-end">
             <Button variant="outline" onClick={clearFilters} className="w-full">
               Clear Filters
@@ -188,8 +178,26 @@ export default function JobsPage() {
           </div>
         </div>
 
-        {/* Job List */}
-        {filteredJobs.length === 0 ? (
+        {/* Job List or Skeleton Loader */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="p-4 border rounded-lg bg-white">
+                <Skeleton className="h-6 w-3/4 mb-3" /> {/* title */}
+                <Skeleton className="h-4 w-1/2 mb-4" /> {/* company */}
+                <div className="flex gap-2 mb-4">
+                  <Skeleton className="h-6 w-20" />
+                  <Skeleton className="h-6 w-24" />
+                </div>
+                <Skeleton className="h-4 w-2/3 mb-2" />
+                <Skeleton className="h-4 w-1/3 mb-2" />
+                <Skeleton className="h-4 w-1/2 mb-4" />
+                <Skeleton className="h-16 w-full mb-4" /> {/* description */}
+                <Skeleton className="h-10 w-full" /> {/* button */}
+              </div>
+            ))}
+          </div>
+        ) : filteredJobs.length === 0 ? (
           <p className="text-center py-20 text-gray-500">No Jobs Found</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">

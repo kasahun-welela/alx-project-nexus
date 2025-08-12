@@ -72,12 +72,12 @@ export default function AppliedJobsCards() {
 
   if (!applications || applications.length === 0) {
     return (
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center py-16 text-center">
+      <section className="h-screen flex flex-col items-center justify-center gap-4 container mx-auto px-6">
         <Briefcase className="h-12 w-12 text-muted-foreground mb-4" />
-        <h2 className="text-lg font-semibold text-foreground">
+        <h2 className="text-2xl font-semibold text-foreground">
           No applications found
         </h2>
-        <p className="text-sm text-muted-foreground mt-1 max-w-sm">
+        <p className="text-lg text-muted-foreground mt-1 max-w-md">
           Looks like you haven’t applied to any jobs yet. Start browsing and
           apply to jobs that match your skills.
         </p>

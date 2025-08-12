@@ -20,7 +20,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   // Filters
   const [country, setCountry] = useState<string>("");
@@ -39,7 +38,7 @@ export default function JobsPage() {
         );
         setJobs(response.data);
       } catch {
-        setError("Failed to fetch jobs");
+        console.log("Failed to fetch jobs");
       } finally {
         setLoading(false);
       }

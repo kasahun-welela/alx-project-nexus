@@ -13,7 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getAppliedJob } from "@/action";
 import Title from "@/components/common/Title";
 import { Application } from "@/interfaces";
-import { Button } from "@/components/ui/button";
+import LinkAsButton from "@/components/common/LinkAsButton";
 
 export default function AppliedJobsCards() {
   const [applications, setApplications] = useState<Application[]>([]);
@@ -26,7 +26,7 @@ export default function AppliedJobsCards() {
         setLoading(true);
         const res = await getAppliedJob();
         setApplications(res.jobs || []);
-      } catch (err: any) {
+      } catch (err) {
         console.error("Error fetching applications:", err);
         setError("Failed to load applications");
       } finally {
@@ -81,9 +81,8 @@ export default function AppliedJobsCards() {
           Looks like you haven’t applied to any jobs yet. Start browsing and
           apply to jobs that match your skills.
         </p>
-        <Button className="mt-4" asChild>
-          <a href="/jobs">Browse Jobs</a>
-        </Button>
+
+        <LinkAsButton href="/jobs" text="Browse Jobs" />
       </section>
     );
   }

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Briefcase, Heart, LogOut, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { isUserLoggedIn } from "@/action";
@@ -19,6 +19,7 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
+  const handleLogout = () => {};
 
   useEffect(() => {
     (async () => {
@@ -79,13 +80,27 @@ function Navbar() {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Saved Jobs</DropdownMenuItem>
-                <DropdownMenuItem>My applications</DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/saved-jobs" className="flex">
+                    <Heart className="mr-2 h-4 w-4 text-primary" />
+                    Saved Jobs
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  {" "}
+                  <Link href="/my-application" className="flex">
+                    <Briefcase className="mr-2 h-4 w-4 text-primary" />
+                    My Applications
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Log out</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut className="mr-2 h-4 w-4 text-primary" />
+                  Log out
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (

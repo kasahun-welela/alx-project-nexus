@@ -69,6 +69,16 @@ export async function login(formData: LoginFormData) {
   }
 }
 
+
+
+
+export async function isUserLoggedIn() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value; 
+
+  return Boolean(token);
+}
+
 export async function apply(formData: Applications) {
   try {
    
@@ -121,9 +131,47 @@ export async function apply(formData: Applications) {
 }
 
 
-export async function isUserLoggedIn() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value; 
+export async function saveJob(formData :{jobId: string}) {
+  try {
+   
+    const response = await axiosInstance.post(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me/save-job`,
+      formData,
+     
+    );
 
-  return Boolean(token);
+    const result = response.data;
+
+    if (result && result._id) {
+      return {
+        success: true,
+        message: "Job Saved successfully",
+       
+      };
+    }
+
+    return {
+      success: false,
+      message: "Invalid response from server",
+    };
+  } catch (error: any) {
+    console.error("Application error:", error);
+
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: false,
+        message:
+          error.response.data?.message ||
+          error.response.data?.msg ||
+          "Failed to save job",
+      };
+    }
+
+    return {
+      success: false,
+      message: "An unexpected error occurred. Please try again.",
+    };
+  }
 }
+
+

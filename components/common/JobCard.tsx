@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, Building, DollarSign } from "lucide-react";
+import { Calendar, MapPin, Building, DollarSign, Heart } from "lucide-react";
 import Link from "next/link";
 import { Job } from "@/interfaces";
+import { toast } from "sonner";
+import { saveJob } from "@/action";
 
 export default function JobCard({ job }: { job: Job }) {
+  const [save, setSave] = useState(false);
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -14,6 +17,20 @@ export default function JobCard({ job }: { job: Job }) {
       day: "numeric",
       year: "numeric",
     });
+  };
+  const toggleSave = async (jobId: string) => {
+    try {
+      const result = await saveJob({ jobId: jobId });
+      if (result.success) {
+        toast.success("Your application has been submitted successfully!");
+        setSave(!save);
+      } else {
+        toast.error(result.message || "Failed to submit application");
+      }
+    } catch (error) {
+      console.error("Application submission failed:", error);
+      toast.error("An unexpected error occurred. Please try again.");
+    }
   };
 
   const getTypeColor = (type: string) => {
@@ -44,6 +61,11 @@ export default function JobCard({ job }: { job: Job }) {
               <span className="font-medium">{job.company}</span>
             </div>
           </div>
+          <Button variant="ghost" onClick={() => toggleSave(job._id)}>
+            <Heart
+              className={`w-5 h-5 ${save ? "fill-primary text-primary" : ""}`}
+            />
+          </Button>
         </div>
       </CardHeader>
 

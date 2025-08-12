@@ -19,152 +19,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Job } from "@/interfaces";
 import LinkAsButton from "@/components/common/LinkAsButton";
-
-// Dummy data for testing when API is not responding
-const dummyJobData: { [key: string]: Job } = {
-  "1": {
-    _id: "1",
-    title: "Senior Frontend Developer",
-    company: "TechCorp Solutions",
-    description:
-      "We are looking for a Senior Frontend Developer to join our dynamic team. You will be responsible for developing user-facing features using modern JavaScript frameworks and ensuring optimal user experience. The ideal candidate will have strong expertise in React, TypeScript, and modern CSS frameworks.",
-    requirements: [
-      "5+ years of experience in frontend development",
-      "Strong proficiency in React, TypeScript, and JavaScript",
-      "Experience with modern CSS frameworks (Tailwind CSS, Styled Components)",
-      "Knowledge of state management libraries (Redux, Zustand)",
-      "Experience with testing frameworks (Jest, React Testing Library)",
-      "Understanding of responsive design and cross-browser compatibility",
-      "Experience with build tools (Webpack, Vite)",
-      "Knowledge of Git and version control",
-    ],
-    responsibilities: [
-      "Develop and maintain user-facing features",
-      "Write clean, maintainable, and efficient code",
-      "Collaborate with designers and backend developers",
-      "Optimize applications for maximum speed and scalability",
-      "Ensure code quality through code reviews and testing",
-      "Mentor junior developers and share knowledge",
-      "Stay up-to-date with emerging technologies and best practices",
-    ],
-    benefits: [
-      "Competitive salary and equity package",
-      "Comprehensive health, dental, and vision insurance",
-      "Flexible work hours and remote work options",
-      "Professional development and conference attendance",
-      "401(k) matching and stock options",
-      "Unlimited vacation and sick days",
-      "Modern equipment and home office setup",
-    ],
-    jobType: "Full-time",
-    category: "Technology",
-    region: "San Francisco",
-    country: "USA",
-    salary: 120000,
-    experience: "5+ years",
-    education: "Bachelor's degree in Computer Science or related field",
-    createdAt: "2024-01-15T10:00:00Z",
-    companyDescription:
-      "TechCorp Solutions is a leading technology company specializing in innovative software solutions for businesses worldwide. We focus on creating cutting-edge applications that solve real-world problems.",
-    companySize: "100-500 employees",
-    companyWebsite: "https://techcorp-solutions.com",
-    companyEmail: "careers@techcorp-solutions.com",
-    companyPhone: "+1 (555) 123-4567",
-  },
-  "2": {
-    _id: "2",
-    title: "UX/UI Designer",
-    company: "Creative Studios Inc",
-    description:
-      "Join our creative team as a UX/UI Designer where you'll create beautiful, intuitive, and user-centered digital experiences. You'll work closely with product managers, developers, and stakeholders to design solutions that delight users and drive business goals.",
-    requirements: [
-      "3+ years of experience in UX/UI design",
-      "Proficiency in design tools (Figma, Sketch, Adobe Creative Suite)",
-      "Strong understanding of user-centered design principles",
-      "Experience with design systems and component libraries",
-      "Knowledge of accessibility standards and best practices",
-      "Experience with user research and usability testing",
-      "Portfolio showcasing web and mobile app designs",
-    ],
-    responsibilities: [
-      "Create user-centered designs by understanding business requirements",
-      "Create user flows, wireframes, prototypes and mockups",
-      "Translate requirements into style guides, design systems, design patterns and attractive user interfaces",
-      "Create original graphic designs (e.g. images, sketches and tables)",
-      "Identify and troubleshoot UX problems (e.g. responsiveness)",
-      "Collaborate with product managers and developers to implement designs",
-    ],
-    benefits: [
-      "Competitive salary with performance bonuses",
-      "Health, dental, and vision insurance",
-      "Flexible work schedule and remote options",
-      "Professional development budget",
-      "Creative and collaborative work environment",
-      "Regular team events and activities",
-    ],
-    jobType: "Full-time",
-    category: "Design",
-    region: "New York",
-    country: "USA",
-    salary: 95000,
-    experience: "3+ years",
-    education: "Bachelor's degree in Design, HCI, or related field",
-    createdAt: "2024-01-20T14:30:00Z",
-    companyDescription:
-      "Creative Studios Inc is a boutique design agency that specializes in creating memorable digital experiences. We work with startups and established companies to bring their visions to life.",
-    companySize: "10-50 employees",
-    companyWebsite: "https://creativestudios.com",
-    companyEmail: "jobs@creativestudios.com",
-    companyPhone: "+1 (555) 234-5678",
-  },
-  "3": {
-    _id: "3",
-    title: "Product Manager",
-    company: "InnovateTech",
-    description:
-      "We're seeking a Product Manager to drive product strategy and execution for our SaaS platform. You'll work closely with engineering, design, and business teams to deliver products that solve customer problems and drive business growth.",
-    requirements: [
-      "4+ years of product management experience",
-      "Experience with SaaS products and B2B software",
-      "Strong analytical and problem-solving skills",
-      "Experience with agile development methodologies",
-      "Excellent communication and stakeholder management skills",
-      "Data-driven decision making approach",
-      "Experience with product analytics tools",
-    ],
-    responsibilities: [
-      "Define product vision, strategy, and roadmap",
-      "Gather and prioritize product requirements",
-      "Work with engineering teams to deliver features on time",
-      "Analyze product metrics and user feedback",
-      "Collaborate with marketing and sales teams",
-      "Conduct market research and competitive analysis",
-      "Define and track key product metrics",
-    ],
-    benefits: [
-      "Competitive salary with equity options",
-      "Comprehensive benefits package",
-      "Flexible work environment",
-      "Professional development opportunities",
-      "Regular team offsites and events",
-      "Modern office with great amenities",
-    ],
-    jobType: "Full-time",
-    category: "Product",
-    region: "Austin",
-    country: "USA",
-    salary: 110000,
-    experience: "4+ years",
-    education: "Bachelor's degree in Business, Engineering, or related field",
-    createdAt: "2024-01-25T09:15:00Z",
-    companyDescription:
-      "InnovateTech is a fast-growing SaaS company that helps businesses streamline their operations through innovative software solutions. We're passionate about building products that make work easier and more efficient.",
-    companySize: "50-200 employees",
-    companyWebsite: "https://innovatetech.com",
-    companyEmail: "careers@innovatetech.com",
-    companyPhone: "+1 (555) 345-6789",
-  },
-};
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function JobDetailPage() {
   const params = useParams();
@@ -176,22 +31,13 @@ export default function JobDetailPage() {
     const fetchJob = async () => {
       try {
         setLoading(true);
-        // Try to fetch from API first
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/jobs/${params.id}`
         );
         setJob(response.data);
       } catch (err) {
+        setError("error");
         console.error("Error fetching job from API:", err);
-
-        // Fallback to dummy data if API fails
-        const dummyJob = dummyJobData[params.id as string];
-        if (dummyJob) {
-          console.log("Using dummy data for job ID:", params.id);
-          setJob(dummyJob);
-        } else {
-          setError("Job not found in API or dummy data");
-        }
       } finally {
         setLoading(false);
       }
@@ -228,10 +74,71 @@ export default function JobDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading job details...</p>
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          {/* Back button skeleton */}
+          <Skeleton className="h-6 w-32" />
+
+          {/* Job header skeleton */}
+          <Card className="mb-8">
+            <CardHeader className="pb-6">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <div className="flex-1 space-y-4">
+                  <div className="flex gap-3">
+                    <Skeleton className="h-6 w-20" />
+                    <Skeleton className="h-6 w-24" />
+                  </div>
+                  <Skeleton className="h-8 w-64" />
+                  <Skeleton className="h-6 w-48" />
+                  <Skeleton className="h-6 w-40" />
+                  <Skeleton className="h-6 w-32" />
+                  <Skeleton className="h-6 w-52" />
+                </div>
+                <Skeleton className="h-10 w-32" />
+              </div>
+            </CardHeader>
+          </Card>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main content skeleton */}
+            <div className="lg:col-span-2 space-y-8">
+              <Card>
+                <CardHeader>
+                  <Skeleton className="h-6 w-48" />
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-5/6" />
+                  <Skeleton className="h-4 w-4/6" />
+                  <Skeleton className="h-4 w-full" />
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Sidebar skeleton */}
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <Skeleton className="h-6 w-48" />
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-5/6" />
+                  <Skeleton className="h-4 w-4/6" />
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <Skeleton className="h-6 w-48" />
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Skeleton className="h-4 w-40" />
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-4 w-28" />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -335,40 +242,11 @@ export default function JobDetailPage() {
                     <h3 className="text-lg font-semibold text-gray-900 mb-3">
                       Requirements
                     </h3>
-                    <ul className="list-disc list-inside space-y-2 text-gray-700">
-                      {(job.requirements || []).map((req, index) => (
-                        <li key={index} className="leading-relaxed">
-                          {req}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Responsibilities */}
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                      Responsibilities
-                    </h3>
-                    <ul className="list-disc list-inside space-y-2 text-gray-700">
-                      {(job.responsibilities || []).map((resp, index) => (
-                        <li key={index} className="leading-relaxed">
-                          {resp}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Benefits */}
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                      Benefits
-                    </h3>
-                    <ul className="list-disc list-inside space-y-2 text-gray-700">
-                      {(job.benefits || []).map((benefit, index) => (
-                        <li key={index} className="leading-relaxed">
-                          {benefit}
-                        </li>
-                      ))}
+                    <ul className="list-disc list-inside space-y-2 text-gray-700 ml-3">
+                      <li>Lorem ipsum</li>
+                      <li>Lorem ipsum</li>
+                      <li>Lorem ipsum</li>
+                      <li>Lorem ipsum</li>
                     </ul>
                   </div>
                 </div>
@@ -459,18 +337,6 @@ export default function JobDetailPage() {
                   <span className="text-gray-600">Category</span>
                   <span className="font-medium">{job.category}</span>
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Quick Apply */}
-            <Card>
-              <CardContent className="pt-6">
-                <Button size="lg" className="w-full mb-3">
-                  Apply Now
-                </Button>
-                <p className="text-xs text-gray-500 text-center">
-                  By applying, you agree to our terms and conditions
-                </p>
               </CardContent>
             </Card>
           </div>

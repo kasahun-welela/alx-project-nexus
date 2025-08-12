@@ -269,43 +269,38 @@ export default function JobDetailPage() {
                     {job.company}
                   </h4>
                   <p className="text-gray-600 text-sm leading-relaxed">
-                    {job.companyDescription}
+                    company description
                   </p>
                 </div>
 
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Users className="w-4 h-4" />
-                    <span>{job.companySize}</span>
+                    <span>10-400</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Globe className="w-4 h-4" />
-                    <a
-                      href={job.companyWebsite}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
-                    >
+                    <Link href="#" className="text-blue-600 hover:underline">
                       Visit Website
-                    </a>
+                    </Link>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Mail className="w-4 h-4" />
-                    <a
-                      href={`mailto:${job.companyEmail}`}
+                    <Link
+                      href="mailto:ellohim@gamil.com"
                       className="text-blue-600 hover:underline"
                     >
-                      {job.companyEmail}
-                    </a>
+                      ellohim@gamil.com
+                    </Link>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Phone className="w-4 h-4" />
-                    <a
-                      href={`tel:${job.companyPhone}`}
+                    <Link
+                      href="tel:+251917469819"
                       className="text-blue-600 hover:underline"
                     >
-                      {job.companyPhone}
-                    </a>
+                      +251-917469819
+                    </Link>
                   </div>
                 </div>
               </CardContent>
@@ -321,11 +316,11 @@ export default function JobDetailPage() {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Experience Level</span>
-                  <span className="font-medium">{job.experience}</span>
+                  <span className="font-medium">Intermidiate</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Education</span>
-                  <span className="font-medium">{job.education}</span>
+                  <span className="font-medium">Bsc</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Job Type</span>

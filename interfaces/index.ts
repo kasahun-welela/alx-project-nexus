@@ -12,3 +12,13 @@ export interface Job {
   updatedAt: string;
   
 }
+
+export interface Application {
+  _id: string;
+  user: string;
+  job: Job;
+  coverLetter?: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+};

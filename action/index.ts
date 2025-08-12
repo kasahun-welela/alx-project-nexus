@@ -231,3 +231,63 @@ export async function getSavedJob() {
   }
 }
 
+export async function getAppliedJob() {
+  try {
+    const response = await axiosInstance.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/applications`
+    );
+
+    const result = response.data;
+
+    if (Array.isArray(result)) {
+      return {
+        success: true,
+        message: "Data fetched successfully",
+        jobs: result.map((app) => ({
+          _id: app._id,
+          user: app.user,
+          job: {
+            _id: app.job._id,
+            title: app.job.title,
+            description: app.job.description,
+            company: app.job.company,
+            country: app.job.country,
+            region: app.job.region,
+            jobType: app.job.jobType,
+            salary: app.job.salary,
+            category: app.job.category,
+            createdAt: app.job.createdAt,
+            updatedAt: app.job.updatedAt,
+          },
+          coverLetter: app.coverLetter,
+          status: app.status,
+          createdAt: app.createdAt,
+          updatedAt: app.updatedAt,
+        })),
+      };
+    }
+
+    return {
+      success: false,
+      message: "Invalid response format",
+      jobs: [],
+    };
+  } catch (error: any) {
+    console.error("Fetching error:", error);
+
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: false,
+        message: error.response.data?.msg || "Failed to fetch applications",
+        jobs: [],
+      };
+    }
+
+    return {
+      success: false,
+      message: "An error occurred while fetching applications",
+      jobs: [],
+    };
+  }
+}
+

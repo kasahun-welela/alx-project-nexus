@@ -31,7 +31,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 
-// ✅ Validation Schema
+// Validation Schema
 const formSchema = z.object({
   coverLetter: z
     .string()

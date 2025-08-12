@@ -6,6 +6,7 @@ import JobCard from "@/components/common/JobCard";
 import Title from "@/components/common/Title";
 import LinkAsButton from "@/components/common/LinkAsButton";
 import { Job } from "@/interfaces";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Home() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -28,6 +29,21 @@ export default function Home() {
     fetchJobs();
   }, []);
 
+  const SkeletonCard = () => (
+    <div className="border rounded-lg p-4 space-y-4 border-l-4 border-l-primary/20">
+      <Skeleton className="h-6 w-3/4" />
+      <Skeleton className="h-4 w-1/2" />
+      <div className="flex gap-2">
+        <Skeleton className="h-5 w-16" />
+        <Skeleton className="h-5 w-20" />
+      </div>
+      <Skeleton className="h-4 w-2/3" />
+      <Skeleton className="h-4 w-1/3" />
+      <Skeleton className="h-20 w-full" />
+      <Skeleton className="h-10 w-full" />
+    </div>
+  );
+
   return (
     <>
       <Hero />
@@ -38,7 +54,11 @@ export default function Home() {
         />
 
         {loading ? (
-          <p className="text-center text-muted-foreground">Loading jobs...</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[...Array(3)].map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
         ) : jobs.length === 0 ? (
           <p className="text-center text-muted-foreground">
             No jobs found at the moment.
